@@ -1,5 +1,6 @@
 import time
 from pathlib import Path
+import traceback
 from uuid import uuid4
 
 from pydantic import ValidationError
@@ -163,6 +164,7 @@ class WeChatManager(Adapter):
             event: Event = await self.message_handler.message_to_event(msg)
         except Exception as e:
             log("ERROR", f"生成事件出错:{e}")
+            log(traceback.format_exc())
             return
         if event is None:
             log("DEBUG", "未生成合适事件")
