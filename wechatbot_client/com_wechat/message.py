@@ -169,10 +169,13 @@ class MessageHandler(Generic[E]):
             )
 
         # 获取at
-        at_list = at_xml.text.split(",")
-        if at_list[0] == "":
-            # pc微信发消息at时，会多一个','
-            at_list.pop(0)
+        try:
+            at_list = at_xml.text.split(",")
+            if at_list[0] == "":
+                # pc微信发消息at时，会多一个','
+                at_list.pop(0)
+        except AttributeError as e:
+            at_list = []
 
         # 这里用正则分割文本，来制造消息段，可能会有bug
         regex = r"(@[^@\s]+\s)"
